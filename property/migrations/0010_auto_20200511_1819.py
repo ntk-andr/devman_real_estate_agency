@@ -14,9 +14,6 @@ def load_owners(apps, schema_editor):
                 'owners_phonenumber': flat.owners_phonenumber,
             }
         )
-        print(f'запись {flat.id}')
-
-        
 
 
 class Migration(migrations.Migration):
