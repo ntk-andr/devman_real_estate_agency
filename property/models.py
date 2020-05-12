@@ -14,7 +14,7 @@ class Flat(models.Model):
     owners_phonenumber = models.CharField("Номер владельца", max_length=20, db_index=True)
     owner_phone_pure = PhoneNumberField("Нормализованный номер владельца", blank=True, region='RU', db_index=True)
 
-    new_building = models.NullBooleanField("Новостройка")
+    new_building = models.NullBooleanField("Новостройка", db_index=True)
 
     created_at = models.DateTimeField("Когда создано объявление", default=timezone.now, db_index=True)
     
@@ -38,7 +38,7 @@ class Flat(models.Model):
         verbose_name="Кто лайкнул", 
         blank=True,
         related_name='liked_flats'
-        )
+    )
 
     def __str__(self):
         return f"{self.town}, {self.address} ({self.price}р.)"
