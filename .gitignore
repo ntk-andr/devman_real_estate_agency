@@ -7,3 +7,4 @@ venv/
 *.pyc
 *.py[cod]
 
+*.sqlite3
