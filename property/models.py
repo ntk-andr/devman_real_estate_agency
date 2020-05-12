@@ -9,11 +9,6 @@ class Flat(models.Model):
         verbose_name_plural = 'Квартиры'
         verbose_name = 'Квартиру'
 
-    owner = models.CharField("ФИО владельца", max_length=200, db_index=True)
-
-    owners_phonenumber = models.CharField("Номер владельца", max_length=20, db_index=True)
-    owner_phone_pure = PhoneNumberField("Нормализованный номер владельца", blank=True, region='RU', db_index=True)
-
     new_building = models.NullBooleanField("Новостройка", db_index=True)
 
     created_at = models.DateTimeField("Когда создано объявление", default=timezone.now, db_index=True)
@@ -50,8 +45,8 @@ class Complaint(models.Model):
         verbose_name_plural = 'Жалобы'
         verbose_name = 'Жалобу'
 
-    user = models.ForeignKey(User, verbose_name="Кто жаловался", on_delete=models.CASCADE)
-    room = models.ForeignKey(Flat, verbose_name="Квартира на которую пожаловались", on_delete=models.CASCADE)
+    author = models.ForeignKey(User, verbose_name="Кто жаловался", on_delete=models.CASCADE, related_name='authors')
+    room = models.ForeignKey(Flat, verbose_name="Квартира на которую пожаловались", on_delete=models.CASCADE, related_name='flats')
     text = models.TextField("Текст жалобы")
 
 
@@ -59,7 +54,7 @@ class Owner(models.Model):
 
     class Meta:
         verbose_name_plural = 'Собственники'
-        verbose_name = 'Собвственника'
+        verbose_name = 'Собственника'
 
     owner = models.CharField("ФИО владельца", max_length=200)
 
@@ -69,8 +64,7 @@ class Owner(models.Model):
     flats = models.ManyToManyField(
         Flat, 
         verbose_name="Квартиры в собственности", 
-        related_name='flats_in_owner',
-        blank=True, null=True
+        related_name='apartments',
     )
 
     def __str__(self):
