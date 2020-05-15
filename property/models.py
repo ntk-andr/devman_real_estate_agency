@@ -45,8 +45,15 @@ class Complaint(models.Model):
         verbose_name_plural = 'Жалобы'
         verbose_name = 'Жалобу'
 
-    author = models.ForeignKey(User, verbose_name="Кто жаловался", on_delete=models.CASCADE, related_name='authors')
-    room = models.ForeignKey(Flat, verbose_name="Квартира на которую пожаловались", on_delete=models.CASCADE, related_name='flats')
+    author = models.ForeignKey(User,
+        verbose_name="Кто жаловался", on_delete=models.CASCADE, 
+        related_name='complaints'
+    )
+    flat = models.ForeignKey(Flat, 
+        verbose_name="Квартира на которую пожаловались", on_delete=models.CASCADE, 
+        related_name='complaints',
+        default=True
+    )
     text = models.TextField("Текст жалобы")
 
 
@@ -56,15 +63,16 @@ class Owner(models.Model):
         verbose_name_plural = 'Собственники'
         verbose_name = 'Собственника'
 
-    owner = models.CharField("ФИО владельца", max_length=200)
+    fio = models.CharField("ФИО владельца", max_length=200)
 
-    owners_phonenumber = models.CharField("Номер владельца", max_length=20)
-    owner_phone_pure = PhoneNumberField("Нормализованный номер владельца", blank=True, region='RU')
+    phonenumber = models.CharField("Номер владельца", max_length=20)
+    phone_pure = PhoneNumberField("Нормализованный номер владельца", blank=True, region='RU')
 
     flats = models.ManyToManyField(
         Flat, 
         verbose_name="Квартиры в собственности", 
-        related_name='apartments',
+        related_name='owners',
+        blank=True
     )
 
     def __str__(self):

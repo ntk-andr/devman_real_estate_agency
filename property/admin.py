@@ -12,11 +12,11 @@ class FlatAdmin(admin.ModelAdmin):
 
 
 class ComplaintAdmin(admin.ModelAdmin):
-    raw_id_fields = ('room',)
+    raw_id_fields = ('flat',)
 
 
 class OwnerAdmin(admin.ModelAdmin):
-    list_display = ('owner', 'owner_phone_pure')
+    list_display = ('fio', 'phone_pure')
     raw_id_fields = ('flats',)
 
 

@@ -6,7 +6,7 @@ from django.db import migrations
 def edit_field_new_building(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     for flat in Flat.objects.all():
-        flat.new_building = flat.construction_year > 2014 or False
+        flat.new_building = flat.construction_year > 2014
         flat.save()
 
 
