@@ -3,8 +3,8 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 
+
 class Flat(models.Model):
-    
     class Meta:
         verbose_name_plural = 'Квартиры'
         verbose_name = 'Квартиру'
@@ -12,12 +12,13 @@ class Flat(models.Model):
     new_building = models.NullBooleanField("Новостройка", db_index=True)
 
     created_at = models.DateTimeField("Когда создано объявление", default=timezone.now, db_index=True)
-    
+
     description = models.TextField("Текст объявления", blank=True)
     price = models.IntegerField("Цена квартиры", db_index=True)
 
     town = models.CharField("Город, где находится квартира", max_length=50, db_index=True)
-    town_district = models.CharField("Район города, где находится квартира", max_length=50, blank=True, help_text='Чертаново Южное')
+    town_district = models.CharField("Район города, где находится квартира", max_length=50, blank=True,
+                                     help_text='Чертаново Южное')
     address = models.TextField("Адрес квартиры", help_text='ул. Подольских курсантов д.5 кв.4')
     floor = models.CharField("Этаж", max_length=3, help_text='Первый этаж, последний этаж, пятый этаж')
 
@@ -29,8 +30,8 @@ class Flat(models.Model):
     construction_year = models.IntegerField("Год постройки здания", null=True, blank=True, db_index=True)
 
     liked_by = models.ManyToManyField(
-        User, 
-        verbose_name="Кто лайкнул", 
+        User,
+        verbose_name="Кто лайкнул",
         blank=True,
         related_name='liked_flats'
     )
@@ -40,17 +41,18 @@ class Flat(models.Model):
 
 
 class Complaint(models.Model):
-
     class Meta:
         verbose_name_plural = 'Жалобы'
         verbose_name = 'Жалобу'
 
-    author = models.ForeignKey(User,
-        verbose_name="Кто жаловался", on_delete=models.CASCADE, 
+    author = models.ForeignKey(
+        User,
+        verbose_name="Кто жаловался", on_delete=models.CASCADE,
         related_name='complaints'
     )
-    flat = models.ForeignKey(Flat, 
-        verbose_name="Квартира на которую пожаловались", on_delete=models.CASCADE, 
+    flat = models.ForeignKey(
+        Flat,
+        verbose_name="Квартира на которую пожаловались", on_delete=models.CASCADE,
         related_name='complaints',
         default=True
     )
@@ -58,7 +60,6 @@ class Complaint(models.Model):
 
 
 class Owner(models.Model):
-
     class Meta:
         verbose_name_plural = 'Собственники'
         verbose_name = 'Собственника'
@@ -69,11 +70,11 @@ class Owner(models.Model):
     phone_pure = PhoneNumberField("Нормализованный номер владельца", blank=True, region='RU')
 
     flats = models.ManyToManyField(
-        Flat, 
-        verbose_name="Квартиры в собственности", 
+        Flat,
+        verbose_name="Квартиры в собственности",
         related_name='owners',
         blank=True
     )
 
     def __str__(self):
-        return self.owner
+        return self.fio
