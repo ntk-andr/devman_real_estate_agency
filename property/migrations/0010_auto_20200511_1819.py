@@ -17,7 +17,6 @@ def load_owners(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('property', '0009_owner'),
     ]
