@@ -10,7 +10,6 @@ class Flat(models.Model):
         verbose_name = 'Квартиру'
 
     new_building = models.NullBooleanField("Новостройка", db_index=True)
-
     created_at = models.DateTimeField("Когда создано объявление", default=timezone.now, db_index=True)
 
     description = models.TextField("Текст объявления", blank=True)
