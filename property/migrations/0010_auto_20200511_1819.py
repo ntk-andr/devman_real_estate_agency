@@ -10,7 +10,7 @@ def load_owners(apps, schema_editor):
         Owner.objects.get_or_create(
             owner=flat.owner,
             owner_phone_pure=flat.owner_phone_pure,
-            defaults = {
+            defaults={
                 'owners_phonenumber': flat.owners_phonenumber,
             }
         )
